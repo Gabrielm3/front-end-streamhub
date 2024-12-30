@@ -28,8 +28,8 @@ const Premium: FC = () => {
 	const { mutate, isPending } = useMutation({
 		mutationKey: ['create payment'],
 		mutationFn: (amount: number) => paymentService.checkout(amount),
-		onSuccess({ data }) {
-			push(data.confirmation.confirmation_url)
+		onSuccess(data: { url: string }) {
+			push(data.url)
 		},
 		onError() {
 			toast.error('Error creating payment')

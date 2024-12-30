@@ -1,8 +1,8 @@
-import { axiosWithAuth } from '@/api/interceptors'
+import { axiosWithAuth } from '@/src/api/interceptors'
 
-import { API_URL } from '@/config/api.config'
+import { API_URL } from '@/src/config/api.config'
 
-import { IPayment } from '@/types/payment.types'
+import { IPayment } from '@/src/types/payment.types'
 
 class PaymentService {
   async getAll() {
@@ -17,7 +17,7 @@ class PaymentService {
         amount
       }
     )
-    window.location.href = data.url
+    return data
   }
 
   async delete(id: string) {
