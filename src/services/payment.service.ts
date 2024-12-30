@@ -5,10 +5,8 @@ import { API_URL } from '@/src/config/api.config'
 import { IPayment } from '@/src/types/payment.types'
 
 interface PaymentResponse {
-  data: {
-    confirmation: {
-      confirmation_url: string
-    }
+  confirmation: {
+    confirmation_url: string
   }
 }
 
@@ -18,11 +16,18 @@ class PaymentService {
     return data
   }
 
-  async checkout(amount: number): Promise<PaymentResponse> {
-    const response = await axiosWithAuth.post<PaymentResponse>(API_URL.payments(''), {
-      amount
-    })
-    return response.data
+  async checkout(amount: number) {
+    try {
+      const response = await axiosWithAuth.post<PaymentResponse>(
+        API_URL.payments(''),
+        {
+          amount
+        }
+      )
+      return response
+    } catch (error) {
+      return undefined
+    }
   }
 
   async delete(id: string) {

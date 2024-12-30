@@ -26,7 +26,7 @@ const Premium: FC = () => {
 	const { mutate } = useMutation({
 		mutationKey: ['create payment'],
 		mutationFn: (amount: number) => paymentService.checkout(amount),
-		onSuccess(data: { confirmation: { confirmation_url: string } }) {
+		onSuccess(data) {
 			push(data.confirmation.confirmation_url)
 		},
 		onError() {
