@@ -4,10 +4,9 @@ import { API_URL } from '@/src/config/api.config'
 
 import { IPayment } from '@/src/types/payment.types'
 
-interface PaymentResponse {
-  confirmation: {
-    confirmation_url: string
-  }
+// Atualize a interface da resposta do pagamento
+export interface PaymentResponse {
+  url: string // Ajustado para corresponder à resposta do backend
 }
 
 class PaymentService {

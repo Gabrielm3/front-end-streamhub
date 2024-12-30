@@ -23,19 +23,19 @@ const Premium: FC = () => {
 
 	const { user, isLoading } = useProfile()
 
-	const { mutate } = useMutation({
+	const { mutate: checkout } = useMutation({
 		mutationKey: ['create payment'],
 		mutationFn: (amount: number) => paymentService.checkout(amount),
-		onSuccess(response: PaymentResponse) {
-			push(response.confirmation.confirmation_url)
+		onSuccess(data) {
+			push(data.url)
 		},
 		onError() {
-			push(DASHBOARD_URL.root())
+			toast.error('Payment error!')
 		}
 	})
 
 	const handleClick = () => {
-		mutate(5000)
+		checkout(5000)
 	}
 
 	return (
