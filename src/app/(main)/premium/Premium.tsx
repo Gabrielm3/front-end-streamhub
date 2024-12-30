@@ -1,11 +1,10 @@
 'use client'
 
-import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { FC } from 'react'
-import toast from 'react-hot-toast'
 import { BsCheckCircle } from 'react-icons/bs'
 import { LuLoader } from 'react-icons/lu'
+import { useMutation } from '@tanstack/react-query'
 
 import Button from '@/components/ui/form-elements/button/Button'
 import Heading from '@/components/ui/heading/Heading'
@@ -13,7 +12,6 @@ import Heading from '@/components/ui/heading/Heading'
 import { DASHBOARD_URL, PUBLIC_URL } from '@/config/url.config'
 
 import { useProfile } from '@/hooks/useProfile'
-
 import { paymentService } from '@/services/payment.service'
 
 import { convertPrice } from '@/utils/string/convertPrice'
@@ -25,23 +23,19 @@ const Premium: FC = () => {
 
 	const { user, isLoading } = useProfile()
 
-	const { mutate, isPending } = useMutation({
+	const { mutate } = useMutation({
 		mutationKey: ['create payment'],
 		mutationFn: (amount: number) => paymentService.checkout(amount),
-		onSuccess(data: { url: string }) {
-			push(data.url)
+		onSuccess(data) {
+			push(data.confirmation.confirmation_url)
 		},
 		onError() {
-			toast.error('Error creating payment')
+			push(DASHBOARD_URL.root())
 		}
 	})
 
-	const handleClick = (amount: number) => {
-		user?.isHasPremium
-			? push(DASHBOARD_URL.root())
-			: user
-				? mutate(amount)
-				: push(PUBLIC_URL.auth())
+	const handleClick = () => {
+		mutate(5000)
 	}
 
 	return (
@@ -72,10 +66,10 @@ const Premium: FC = () => {
 					</ul>
 
 					<Button
-						onClick={() => handleClick(5000)}
+						onClick={handleClick}
 						className={styles.button}
 					>
-						{isLoading || isPending ? (
+						{isLoading ? (
 							<LuLoader className={styles.loader} />
 						) : user?.isHasPremium ? (
 							'Go to Dashboard'
