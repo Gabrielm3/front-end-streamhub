@@ -1,3 +1,4 @@
+import { toast } from 'react-hot-toast'
 'use client'
 
 import { useRouter } from 'next/navigation'
@@ -26,9 +27,9 @@ const Premium: FC = () => {
 	const { mutate: checkout } = useMutation({
 		mutationKey: ['create payment'],
 		mutationFn: (amount: number) => paymentService.checkout(amount),
-		onSuccess(data) {
-			push(data.url)
-		},
+		onSuccess: (response) => {
+			push(response.url);
+		  },
 		onError() {
 			toast.error('Payment error!')
 		}
