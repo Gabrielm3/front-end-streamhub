@@ -16,17 +16,15 @@ class PaymentService {
     return data
   }
 
-  async checkout(amount: number) {
+  async checkout(amount: number): Promise<PaymentResponse> {
     try {
-      const response = await axiosWithAuth.post<PaymentResponse>(
+      const { data } = await axiosWithAuth.post<PaymentResponse>(
         API_URL.payments(''),
-        {
-          amount
-        }
+        { amount }
       )
-      return response
+      return data
     } catch (error) {
-      return undefined
+      throw error
     }
   }
 
